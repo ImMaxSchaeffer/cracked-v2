@@ -11,7 +11,7 @@ The site serves as a centralized space to share social media profiles, project l
 - GitHub Pages (for deployment)
 
 ## Live Site
-🔗 [https://crackedfyp.github.io](https://crackedfyp.github.io)
+🔗 [https://hxncvxz.github.io/cracked/](https://hxncvxz.github.io/cracked/)
 
 ---
 
