@@ -15,7 +15,7 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(-45deg, #1f0036, #0d001f, #110022, #220044);
+      background: radial-gradient(circle at center, #0a0011, #0d0018, #120020, #1a0030);
       background-size: 400% 400%;
       animation: gradientFlow 15s ease infinite;
       color: #fff;
@@ -28,9 +28,11 @@
     }
 
     @keyframes gradientFlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      0% { background-position: 0% 0%; }
+      25% { background-position: 100% 0%; }
+      50% { background-position: 100% 100%; }
+      75% { background-position: 0% 100%; }
+      100% { background-position: 0% 0%; }
     }
 
     .card {
@@ -97,7 +99,7 @@
     }
 
     h2 {
-      font-size: 30px;
+      font-size: 32px;
       font-weight: 700;
       background: linear-gradient(to right, #ff66c4, #8e44ff);
       -webkit-background-clip: text;
@@ -124,7 +126,6 @@
       border-radius: 12px;
       font-size: 15px;
       color: white;
-      background: linear-gradient(to right, #ff416c, #ff4b2b);
       border: none;
       transition: all 0.3s ease;
       text-decoration: none;
@@ -139,8 +140,12 @@
       box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
     }
 
+    .btn.discord {
+      background: linear-gradient(to right, #8e44ff, #5f00ba);
+    }
+
     .btn.coming {
-      background: linear-gradient(to right, #8e2de2, #4a00e0);
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
     }
 
     .footer {
@@ -148,6 +153,15 @@
       color: #666;
       margin-top: 2rem;
       text-align: center;
+    }
+
+    .footer a {
+      color: #8e44ff;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
     }
 
     @media (max-width: 768px) {
@@ -176,10 +190,10 @@
       <h4>Welcome to</h4>
       <h2>crackedfyp</h2>
       <p>Everything you need, in one place.</p>
-      <a href="https://discord.gg/DybZBGxgQR" class="btn"><i class="fab fa-discord"></i> Join now</a>
+      <a href="https://discord.gg/DybZBGxgQR" class="btn discord"><i class="fab fa-discord"></i> Join now</a>
       <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=6s" class="btn coming"><i class="fas fa-shopping-cart"></i> Coming soon</a>
     </div>
   </div>
-  <div class="footer">⚡ Made by hxncvxz</div>
+  <div class="footer">⚡ Made by <a href="https://github.com/hxncvxz" target="_blank">hxncvxz</a></div>
 </body>
 </html>
