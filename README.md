@@ -1,4 +1,4 @@
-# crackedfyp 🌌
+# crackedfyp
 
 > The official drop — a minimal, glowing link hub for all things **crackedfyp**.
 
@@ -28,7 +28,7 @@ Stylized. Sharp. No bloat.
 | `HTML5`   | Structure & layout        |
 | `CSS3`    | Styling + animations      |
 | `GitHub`  | Version control & hosting |
-| `GitHub Pages` | Deployment platform   |
+| `GitHub Pages` | Deployment platform  |
 
 ---
 
