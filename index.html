@@ -1,25 +1,185 @@
-body {
-  font-family: 'Outfit', sans-serif;
-  background: linear-gradient(-45deg, #0f0f0f, #1a1a1a, #222, #0d0d0d);
-  background-size: 400% 400%;
-  animation: gradientMove 12s ease infinite;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  overflow: hidden;
-  position: relative;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>crackedfyp</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-@keyframes gradientMove {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(-45deg, #1f0036, #0d001f, #110022, #220044);
+      background-size: 400% 400%;
+      animation: gradientFlow 15s ease infinite;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .card {
+      display: flex;
+      gap: 2rem;
+      background: rgba(18, 18, 18, 0.95);
+      backdrop-filter: blur(25px);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(140, 0, 255, 0.4);
+      border: 1px solid #8e44ff;
+      padding: 2.5rem;
+      max-width: 850px;
+      width: 100%;
+      align-items: center;
+    }
+
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-shrink: 0;
+    }
+
+    .profile-pic {
+      width: 130px;
+      height: 130px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 2px solid #8e44ff;
+    }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .socials a {
+      background: #111;
+      padding: 10px;
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      transition: 0.3s ease;
+    }
+
+    .socials a:hover {
+      background: #8e44ff;
+      transform: scale(1.1);
+    }
+
+    .right-panel {
+      flex: 1;
+    }
+
+    h4 {
+      text-transform: uppercase;
+      font-size: 12px;
+      color: #9d64ff;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1.5px;
+    }
+
+    h2 {
+      font-size: 30px;
+      font-weight: 700;
+      background: linear-gradient(to right, #ff66c4, #8e44ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: #bbb;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 0;
+      margin-bottom: 1rem;
+      width: 100%;
+      max-width: 300px;
+      font-weight: 600;
+      border-radius: 12px;
+      font-size: 15px;
+      color: white;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      border: none;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn i {
+      margin-right: 8px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+    }
+
+    .btn.coming {
+      background: linear-gradient(to right, #8e2de2, #4a00e0);
+    }
+
+    .footer {
+      font-size: 12px;
+      color: #666;
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        flex-direction: column;
+        text-align: center;
+      }
+      .right-panel {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="left-panel">
+      <img class="profile-pic" src="https://i.pinimg.com/736x/01/e3/02/01e3028ef3a92df3f66402d600a0e59a.jpg" alt="Profile Picture">
+      <div class="socials">
+        <a href="https://www.instagram.com/crackedfyp" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.threads.com/@crackedfyp" target="_blank"><i class="fab fa-threads"></i></a>
+        <a href="https://www.youtube.com/@crackedfyp" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.twitch.tv/crackedfyp" target="_blank"><i class="fab fa-twitch"></i></a>
+      </div>
+    </div>
+    <div class="right-panel">
+      <h4>Welcome to</h4>
+      <h2>crackedfyp</h2>
+      <p>Everything you need, in one place.</p>
+      <a href="https://discord.gg/DybZBGxgQR" class="btn"><i class="fab fa-discord"></i> Join now</a>
+      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=6s" class="btn coming"><i class="fas fa-shopping-cart"></i> Coming soon</a>
+    </div>
+  </div>
+  <div class="footer">⚡ Made by hxncvxz</div>
+</body>
+</html>
