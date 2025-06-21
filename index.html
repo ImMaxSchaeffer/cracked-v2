@@ -5,17 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>crackedfyp</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
-      background: #000;
-      font-family: 'Segoe UI', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(145deg, #0d0d0d, #1a1a1a);
       color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      overflow: hidden;
     }
 
     a {
@@ -23,89 +29,116 @@
     }
 
     .card {
-      background: #111;
-      border: 1px solid #333;
+      background: rgba(30, 30, 30, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid #444;
       border-radius: 20px;
-      padding: 30px;
+      padding: 40px;
       width: 90%;
-      max-width: 400px;
-      box-shadow: 0 0 20px rgba(255,255,255,0.05);
+      max-width: 420px;
       text-align: center;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      transition: all 0.4s ease-in-out;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 50px rgba(175, 0, 255, 0.2);
     }
 
     .profile-pic {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid #444;
-      margin-bottom: 15px;
+      border: 3px solid #8f5eff;
+      margin-bottom: 20px;
     }
 
     .socials {
       display: flex;
       justify-content: center;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 16px;
+      margin-bottom: 25px;
     }
 
     .socials a {
-      color: white;
-      background: #222;
-      padding: 10px;
-      border-radius: 10px;
+      color: #fff;
+      background: #1a1a1a;
+      padding: 12px;
+      border-radius: 12px;
       font-size: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.3s;
+      box-shadow: 0 0 10px rgba(255,255,255,0.05);
+      transition: all 0.3s ease;
     }
 
     .socials a:hover {
-      background: #444;
+      background: linear-gradient(135deg, #8f5eff, #af2dd1);
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #8f5eff;
+    }
+
+    h4 {
+      color: #8f5eff;
+      letter-spacing: 2px;
+      font-size: 14px;
+      margin-bottom: 6px;
     }
 
     h2 {
-      margin: 10px 0 5px;
-      font-size: 24px;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 10px;
     }
 
     p {
-      color: #bbb;
-      margin-bottom: 25px;
+      font-size: 15px;
+      color: #ccc;
+      margin-bottom: 30px;
     }
 
     .btn {
       display: block;
-      margin: 15px auto;
-      padding: 15px;
+      padding: 14px 0;
       border: none;
-      border-radius: 12px;
-      color: white;
-      font-weight: bold;
+      border-radius: 14px;
       font-size: 16px;
+      font-weight: 600;
+      color: white;
       width: 100%;
-      max-width: 300px;
-      text-decoration: none;
-      transition: transform 0.2s;
+      max-width: 320px;
+      margin: 0 auto 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-size: 200% auto;
+    }
+
+    .btn i {
+      margin-right: 10px;
+    }
+
+    .btn.join {
+      background-image: linear-gradient(to right, #ff7a18, #af002d 80%);
+    }
+
+    .btn.coming {
+      background-image: linear-gradient(to right, #5f72be, #9921e8 80%);
     }
 
     .btn:hover {
-      transform: scale(1.03);
-    }
-
-    .join {
-      background: linear-gradient(90deg, #ff7a18, #af002d 70%);
-    }
-
-    .coming {
-      background: linear-gradient(90deg, #5f72be, #9921e8);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 12px rgba(255,255,255,0.1);
     }
 
     .footer {
       margin-top: 25px;
-      font-size: 12px;
-      color: #666;
+      font-size: 13px;
+      color: #777;
+    }
+
+    @media(max-width: 480px) {
+      .card {
+        padding: 25px;
+      }
     }
   </style>
 </head>
@@ -116,19 +149,19 @@
     
     <div class="socials">
       <a href="https://www.instagram.com/crackedfyp" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.threads.com/@crackedfyp"><i class="fab fa-threads"></i></a>
+      <a href="https://www.threads.com/@crackedfyp" target="_blank"><i class="fab fa-threads"></i></a>
       <a href="https://www.youtube.com/@crackedfyp" target="_blank"><i class="fab fa-youtube"></i></a>
-      <a href="https://www.twitch.tv/crackedfyp"><i class="fab fa-twitch"></i></a>
+      <a href="https://www.twitch.tv/crackedfyp" target="_blank"><i class="fab fa-twitch"></i></a>
     </div>
 
-    <h4 style="color: #8f5eff; letter-spacing: 2px;">WELCOME TO</h4>
-    <h2><strong>crackedfyp</strong></h2>
-    <p>This is my official site where you can find all of my links here.</p>
+    <h4>WELCOME TO</h4>
+    <h2>crackedfyp</h2>
+    <p>Your central hub for all the coolest links and content. Stay cracked 💀</p>
 
-    <a href="https://discord.gg/DybZBGxgQR" class="btn join"><i class="fab fa-discord"></i> &nbsp;Join now</a>
-    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=6s" class="btn coming"><i class="fas fa-shopping-cart"></i> &nbsp;Coming soon</a>
+    <a href="https://discord.gg/DybZBGxgQR" class="btn join"><i class="fab fa-discord"></i> Join now</a>
+    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=6s" class="btn coming"><i class="fas fa-rocket"></i> Coming soon</a>
 
-    <div class="footer">( Made by hxncvxz )</div>
+    <div class="footer">⚡ Made by hxncvxz</div>
   </div>
 
 </body>
