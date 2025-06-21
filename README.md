@@ -1,18 +1,52 @@
-# crackedfyp.github.io
+# crackedfyp 🌌
 
-This is the official personal site and link hub for **crackedfyp**, built with HTML and CSS and hosted on GitHub Pages.
+> The official drop — a minimal, glowing link hub for all things **crackedfyp**.
 
-The site serves as a centralized space to share social media profiles, project links, and community invites in a clean and responsive layout.
+Built with clean HTML + CSS, hosted on GitHub Pages.  
+Stylized. Sharp. No bloat.
 
-## Tech Stack
-- HTML5
-- CSS3
-- Git & GitHub
-- GitHub Pages (for deployment)
+---
 
-## Live Site
+## 🚀 Live Site  
 🔗 [https://hxncvxz.github.io/cracked/](https://hxncvxz.github.io/cracked/)
 
 ---
 
-This repository is maintained as a personal project. Feel free to explore or fork for your own use.
+## 📎 What’s Inside
+
+- 🌐 Central hub for all social links
+- 💻 Fully responsive + animated gradient background
+- 🎯 Fast-loading, lightweight, zero frameworks
+- 🎨 Styled with love and just CSS
+
+---
+
+## 🛠️ Tech Stack
+
+| Tech      | Description               |
+|-----------|---------------------------|
+| `HTML5`   | Structure & layout        |
+| `CSS3`    | Styling + animations      |
+| `GitHub`  | Version control & hosting |
+| `GitHub Pages` | Deployment platform   |
+
+---
+
+## ⭐ Want to Support?
+
+Star this repo to help spread the vibe.  
+Built for creators who want clean presence without the noise.
+
+👉 Click the ⭐ button top-right — it actually helps.
+
+---
+
+## 🧪 Fork It / Remix It
+
+Feel free to clone, fork, or remix this for your own projects.  
+If you vibe with it, credit’s appreciated.
+
+---
+
+## 👨‍💻 Maintained by  
+**[hxncvxz](https://github.com/hxncvxz)**  
