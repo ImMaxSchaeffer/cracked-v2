@@ -15,13 +15,14 @@
 
     body {
       font-family: 'Outfit', sans-serif;
-      background: linear-gradient(145deg, #0d0d0d, #1a1a1a);
+      background: radial-gradient(circle at center, #0f0f0f 0%, #000 100%);
       color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       overflow: hidden;
+      position: relative;
     }
 
     a {
@@ -39,19 +40,33 @@
       text-align: center;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
       transition: all 0.4s ease-in-out;
+      animation: fadeIn 1s ease forwards;
     }
 
     .card:hover {
-      box-shadow: 0 0 50px rgba(175, 0, 255, 0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 0 40px rgba(143, 94, 255, 0.2);
     }
 
     .profile-pic {
-      width: 100px;
-      height: 100px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid #8f5eff;
+      border: 3px solid transparent;
+      background: linear-gradient(135deg, #8f5eff, #af2dd1) border-box;
+      padding: 3px;
       margin-bottom: 20px;
+      animation: glow 2.5s infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 10px #8f5eff50;
+      }
+      to {
+        box-shadow: 0 0 20px #af2dd170;
+      }
     }
 
     .socials {
@@ -82,10 +97,21 @@
       letter-spacing: 2px;
       font-size: 14px;
       margin-bottom: 6px;
+      text-transform: uppercase;
+      animation: titleGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes titleGlow {
+      from {
+        text-shadow: 0 0 5px #8f5eff55;
+      }
+      to {
+        text-shadow: 0 0 15px #af2dd1;
+      }
     }
 
     h2 {
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 700;
       margin-bottom: 10px;
     }
@@ -135,14 +161,63 @@
       color: #777;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     @media(max-width: 480px) {
       .card {
         padding: 25px;
       }
     }
+
+    /* ✨ AURAAA Background Particles ✨ */
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .particles span {
+      position: absolute;
+      display: block;
+      width: 6px;
+      height: 6px;
+      background: #8f5eff;
+      animation: move 10s linear infinite;
+      opacity: 0.5;
+      border-radius: 50%;
+    }
+
+    @keyframes move {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(-1000px) scale(0.5);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
+
+  <!-- ✨ Particle Background -->
+  <div class="particles">
+    <span style="left:10%;animation-delay:0s;"></span>
+    <span style="left:20%;animation-delay:1s;"></span>
+    <span style="left:30%;animation-delay:2s;"></span>
+    <span style="left:40%;animation-delay:3s;"></span>
+    <span style="left:50%;animation-delay:4s;"></span>
+    <span style="left:60%;animation-delay:5s;"></span>
+    <span style="left:70%;animation-delay:6s;"></span>
+    <span style="left:80%;animation-delay:7s;"></span>
+    <span style="left:90%;animation-delay:8s;"></span>
+  </div>
 
   <div class="card">
     <img class="profile-pic" src="https://i.pinimg.com/736x/ea/fe/72/eafe72ca211317b27f5902809a9215cb.jpg" alt="Profile Picture">
