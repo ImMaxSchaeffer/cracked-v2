@@ -2,20 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>crackedfyp</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      cursor: auto;
+      cursor: none;
     }
 
     html, body {
       height: 100%;
+      overflow: hidden;
     }
 
     body {
@@ -25,7 +26,10 @@
       animation: gradientFlow 15s ease infinite;
       color: #fff;
       display: flex;
+      align-items: center;
+      justify-content: center;
       flex-direction: column;
+      position: relative;
     }
 
     @keyframes gradientFlow {
@@ -35,37 +39,32 @@
       75% { background-position: 0% 100%; }
     }
 
-    .main-wrapper {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      gap: 1.5rem;
-    }
-
     .card {
       display: flex;
       gap: 2rem;
       background: rgba(18, 0, 30, 0.95);
       backdrop-filter: blur(25px);
       border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(140, 0, 255, 0.4);
       border: 1px solid #7200b8;
+      box-shadow: 0 10px 40px rgba(140, 0, 255, 0.4);
       padding: 2.5rem;
       max-width: 850px;
       width: 100%;
       align-items: center;
-      transition: all 0.3s ease;
-      z-index: 10;
+      animation: slideUp 1.2s ease-out forwards;
+      opacity: 0;
+      z-index: 2;
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
     }
 
     .left-panel {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       gap: 1rem;
     }
 
@@ -97,6 +96,7 @@
 
     .right-panel {
       flex: 1;
+      text-align: left;
     }
 
     h4 {
@@ -169,17 +169,11 @@
       background: linear-gradient(to right, #ff416c, #ff4b2b);
     }
 
-    .spotify {
-      width: 100%;
-      max-width: 850px;
-      z-index: 10;
-    }
-
     .footer {
       font-size: 12px;
       color: #666;
-      text-align: center;
-      padding: 1rem 0;
+      margin-top: 2rem;
+      z-index: 2;
     }
 
     .footer a {
@@ -191,22 +185,28 @@
       text-decoration: underline;
     }
 
-    .chat-bubble {
+    .cursor-dot {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #8e44ff;
-      color: white;
-      width: 50px;
-      height: 50px;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      font-size: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 99;
-      box-shadow: 0 0 15px rgba(142, 68, 255, 0.4);
+      background-color: #9b4dff;
+      box-shadow: 0 0 10px #9b4dff, 0 0 20px rgba(155, 77, 255, 0.4);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 999;
+    }
+
+    canvas#particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
     }
 
     @media (max-width: 768px) {
@@ -215,56 +215,49 @@
         text-align: center;
       }
 
-      .profile-pic {
-        width: 110px;
-        height: 110px;
+      .right-panel {
+        text-align: center;
       }
 
       h2 {
         font-size: 26px;
+      }
+
+      .cursor-dot {
+        display: none;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="main-wrapper">
-    <!-- Card -->
-    <div class="card">
-      <div class="left-panel">
-        <img class="profile-pic" src="https://i.pinimg.com/736x/61/f9/2f/61f92f98ff8fb2206f9341c8da88b5bf.jpg" alt="Profile Picture">
-        <div class="socials">
-          <a href="https://www.instagram.com/crackedfyp" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="https://www.threads.com/@crackedfyp" target="_blank"><i class="fab fa-threads"></i></a>
-          <a href="https://www.youtube.com/@crackedfyp" target="_blank"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.twitch.tv/crackedfyp" target="_blank"><i class="fab fa-twitch"></i></a>
-        </div>
-      </div>
-      <div class="right-panel">
-        <h4>Welcome to</h4>
-        <h2>crackedfyp</h2>
-        <div id="tagline"></div>
-        <a href="https://discord.gg/DybZBGxgQR" class="btn discord"><i class="fab fa-discord"></i> Join now</a>
-        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=6s" class="btn coming"><i class="fas fa-shopping-cart"></i> Coming soon</a>
+  <canvas id="particles"></canvas>
+  <div class="cursor-dot"></div>
+  <audio id="bg-music" autoplay></audio>
+
+  <div class="card">
+    <div class="left-panel">
+      <img class="profile-pic" src="https://i.pinimg.com/736x/61/f9/2f/61f92f98ff8fb2206f9341c8da88b5bf.jpg" alt="Profile Picture">
+      <div class="socials">
+        <a href="https://www.instagram.com/crackedfyp" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.threads.com/@crackedfyp" target="_blank"><i class="fab fa-threads"></i></a>
+        <a href="https://www.youtube.com/@crackedfyp" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.twitch.tv/crackedfyp" target="_blank"><i class="fab fa-twitch"></i></a>
       </div>
     </div>
-
-    <!-- Spotify Embed -->
-    <div class="spotify">
-      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2SvULYdmPes23yZQYeLkXV?utm_source=generator"
-        width="100%" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
-      </iframe>
+    <div class="right-panel">
+      <h4>Welcome to</h4>
+      <h2>crackedfyp</h2>
+      <div id="tagline"></div>
+      <a href="https://discord.gg/DybZBGxgQR" class="btn discord"><i class="fab fa-discord"></i> Join now</a>
+      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=6s" class="btn coming"><i class="fas fa-shopping-cart"></i> Coming soon</a>
     </div>
   </div>
 
-  <!-- Footer (outside flex, stays at bottom) -->
   <div class="footer">⚡ Made by <a href="https://github.com/hxncvxz" target="_blank">hxncvxz</a></div>
 
-  <!-- Chat Bubble -->
-  <div class="chat-bubble" title="Coming soon...">💬</div>
-
-  <!-- JS -->
   <script>
+    // Typing animation
     const tagline = document.getElementById('tagline');
     const phrases = [
       "Everything you need, in one place.",
@@ -275,22 +268,103 @@
 
     function loop() {
       tagline.innerHTML = currentPhrase.join('') + '<span class="blinker">|</span>';
-      if (!isDeleting && j < phrases[i].length) {
-        currentPhrase.push(phrases[i][j++]);
-      } else if (isDeleting && j > 0) {
-        currentPhrase.pop();
-        j--;
-      }
-
+      if (!isDeleting && j < phrases[i].length) currentPhrase.push(phrases[i][j++]);
+      else if (isDeleting && j > 0) currentPhrase.pop(), j--;
       if (j === phrases[i].length) isDeleting = true;
-      if (j === 0 && isDeleting) {
-        isDeleting = false;
-        i = (i + 1) % phrases.length;
-      }
-
+      if (j === 0 && isDeleting) isDeleting = false, i = (i + 1) % phrases.length;
       setTimeout(loop, isDeleting ? 40 : 100);
     }
     loop();
+
+    // Cursor dot
+    const dot = document.querySelector('.cursor-dot');
+    document.addEventListener('mousemove', e => {
+      dot.style.top = `${e.clientY}px`;
+      dot.style.left = `${e.clientX}px`;
+    });
+
+    // Particle background
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    function createParticles() {
+      for (let i = 0; i < 60; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 2 + 1,
+          dx: (Math.random() - 0.5) * 0.3,
+          dy: (Math.random() - 0.5) * 0.3,
+          alpha: Math.random()
+        });
+      }
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(142, 68, 255, ${p.alpha})`;
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) {
+          p.x = Math.random() * canvas.width;
+          p.y = Math.random() * canvas.height;
+        }
+      });
+      requestAnimationFrame(drawParticles);
+    }
+
+    createParticles();
+    drawParticles();
+
+    // Shuffle and play music
+    const audio = document.getElementById("bg-music");
+    const songs = [
+      'classic.mp3',
+      'vibez.mp3',
+      'chill.mp3',
+      'darksoul.mp3'
+    ];
+    let played = [], current;
+
+    function getNextSong() {
+      if (played.length === songs.length) played = [];
+      let next;
+      do {
+        next = Math.floor(Math.random() * songs.length);
+      } while (played.includes(next));
+      played.push(next);
+      return songs[next];
+    }
+
+    function playShuffledSong() {
+      const nextSong = getNextSong();
+      audio.src = `Music/${nextSong}`;
+      audio.play().catch(() => {
+        document.body.addEventListener('click', () => audio.play(), { once: true });
+      });
+    }
+
+    window.addEventListener('load', () => {
+      audio.volume = 0.5;
+      playShuffledSong();
+    });
+
+    audio.addEventListener('ended', () => {
+      playShuffledSong();
+    });
   </script>
 </body>
 </html>
