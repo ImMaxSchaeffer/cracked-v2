@@ -31,6 +31,10 @@
       font-family: 'Inter', sans-serif;
     }
 
+    a, a:hover, a:focus, a:visited {
+      text-decoration: none !important;
+    }
+
     body {
       background: radial-gradient(circle at center, #090013, #0d0019, #15002b, #1c0036);
       background-size: 400% 400%;
@@ -126,6 +130,12 @@
       border-radius: 8px;
       color: white;
       transition: 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      width: 36px;
+      height: 36px;
     }
 
     .socials a:hover {
@@ -182,23 +192,69 @@
       margin-bottom: 1rem;
       max-width: 300px;
       width: 100%;
-      border-radius: 12px;
+      border-radius: 20px;
       font-weight: 600;
       font-size: 15px;
       color: white;
-      border: none;
-      transition: all 0.3s ease;
-      text-decoration: none;
+      border: 3px solid transparent;
+      background: #000;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+      z-index: 0;
+      transition: color 0.4s ease, transform 0.3s ease;
+      box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.1);
     }
 
-    .btn i { margin-right: 8px; }
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+    .btn i {
+      margin-right: 8px;
     }
 
-    .btn.discord { background: linear-gradient(to right, #8e44ff, #5f00ba); }
-    .btn.coming { background: linear-gradient(to right, #ff416c, #ff4b2b); }
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: -3px; left: -3px; right: -3px; bottom: -3px;
+      border-radius: 20px;
+      background: linear-gradient(270deg, #8e44ff, #5f00ba, #ff416c, #ff4b2b);
+      background-size: 600% 600%;
+      animation: gradientBorderGlow 8s ease infinite;
+      z-index: -1;
+      filter: blur(6px);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: 3px; left: 3px; right: 3px; bottom: 3px;
+      border-radius: 17px;
+      background: #000;
+      z-index: -1;
+    }
+
+    .btn:hover::before,
+    .btn:focus-visible::before,
+    .btn:active::before {
+      opacity: 1;
+    }
+
+    .btn:hover,
+    .btn:focus-visible,
+    .btn:active {
+      transform: scale(1.07);
+      box-shadow:
+        0 0 10px rgba(255, 255, 255, 0.2),
+        0 0 20px rgba(142, 68, 255, 0.6),
+        0 0 40px rgba(255, 75, 75, 0.7);
+    }
+
+    @keyframes gradientBorderGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
     .footer {
       font-size: 12px;
@@ -209,11 +265,6 @@
 
     .footer a {
       color: #8e44ff;
-      text-decoration: none;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
     }
 
     .cursor-dot {
@@ -263,22 +314,11 @@
   </style>
 </head>
 <body>
-
-  <!-- Preloader -->
-  <div id="preloader">
-    <div class="loader"></div>
-  </div>
-
-  <!-- Particles -->
+  <div id="preloader"><div class="loader"></div></div>
   <canvas id="particles"></canvas>
-
-  <!-- Cursor -->
   <div class="cursor-dot"></div>
-
-  <!-- Background music -->
   <audio id="bg-music" autoplay loop></audio>
 
-  <!-- Main card -->
   <div class="card" id="main-card">
     <div class="left-panel">
       <img class="profile-pic" src="https://i.pinimg.com/736x/d1/d6/76/d1d676fd366801f11e0153cd1b0b6b1e.jpg" alt="Profile Picture">
@@ -298,14 +338,10 @@
     </div>
   </div>
 
-  <!-- Footer -->
   <div class="footer">⚡ Made by <a href="https://github.com/hxncvxz" target="_blank">hxncvxz</a></div>
-
-  <!-- Clock -->
   <div id="clock"></div>
 
   <script>
-    // Preloader
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("preloader").style.display = "none";
@@ -313,7 +349,6 @@
       }, 600);
     });
 
-    // Typing animation
     const tagline = document.getElementById('tagline');
     const phrases = [
       "Join my Discord. Or else. 😐",
@@ -345,14 +380,12 @@
     }
     loop();
 
-    // Cursor
     const dot = document.querySelector('.cursor-dot');
     document.addEventListener('mousemove', e => {
       dot.style.top = `${e.clientY}px`;
       dot.style.left = `${e.clientX}px`;
     });
 
-    // Particles
     const canvas = document.getElementById("particles");
     const ctx = canvas.getContext("2d");
     let particles = [];
@@ -393,7 +426,6 @@
     createParticles();
     drawParticles();
 
-    // Clock
     function updateClock() {
       const now = new Date();
       const h = String(now.getHours()).padStart(2, '0');
@@ -404,30 +436,34 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Music shuffle
     const audio = document.getElementById("bg-music");
     const songs = ["classic.mp3", "vibez.mp3", "chill.mp3", "darksoul.mp3"];
-    let played = [];
-    function getNextSong() {
-      if (played.length === songs.length) played = [];
-      let next;
-      do { next = Math.floor(Math.random() * songs.length); }
-      while (played.includes(next));
-      played.push(next);
-      return songs[next];
+    let playedIndexes = [];
+
+    function getNextSongIndex() {
+      if (playedIndexes.length === songs.length) playedIndexes = [];
+      let nextIndex;
+      do {
+        nextIndex = Math.floor(Math.random() * songs.length);
+      } while (playedIndexes.includes(nextIndex));
+      playedIndexes.push(nextIndex);
+      return nextIndex;
     }
-    function playShuffledSong() {
-      const nextSong = getNextSong();
-      audio.src = `Music/${nextSong}`;
+
+    function playNextSong() {
+      const nextIndex = getNextSongIndex();
+      audio.src = `Music/${songs[nextIndex]}`;
       audio.play().catch(() => {
         document.body.addEventListener('click', () => audio.play(), { once: true });
       });
     }
+
     window.addEventListener('load', () => {
       audio.volume = 0.5;
-      playShuffledSong();
+      playNextSong();
     });
-    audio.addEventListener('ended', () => playShuffledSong());
+
+    audio.addEventListener('ended', playNextSong);
   </script>
 </body>
 </html>
