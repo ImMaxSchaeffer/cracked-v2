@@ -17,10 +17,10 @@
     html, body {
       height: 100%;
       overflow: hidden;
+      font-family: 'Inter', sans-serif;
     }
 
     body {
-      font-family: 'Inter', sans-serif;
       background: radial-gradient(circle at center, #090013, #0d0019, #15002b, #1c0036);
       background-size: 400% 400%;
       animation: gradientFlow 15s ease infinite;
@@ -39,6 +39,33 @@
       75% { background-position: 0% 100%; }
     }
 
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background: #090013;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .loader {
+      border: 5px solid rgba(255, 255, 255, 0.1);
+      border-top: 5px solid #8e44ff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
     .card {
       display: flex;
       gap: 2rem;
@@ -51,14 +78,15 @@
       max-width: 850px;
       width: 100%;
       align-items: center;
-      animation: slideUp 1.2s ease-out forwards;
       opacity: 0;
+      transform: translateY(60px);
+      transition: 1s ease;
       z-index: 2;
     }
 
-    @keyframes slideUp {
-      0% { transform: translateY(50px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .left-panel {
@@ -152,22 +180,14 @@
       text-decoration: none;
     }
 
-    .btn i {
-      margin-right: 8px;
-    }
-
+    .btn i { margin-right: 8px; }
     .btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
     }
 
-    .btn.discord {
-      background: linear-gradient(to right, #8e44ff, #5f00ba);
-    }
-
-    .btn.coming {
-      background: linear-gradient(to right, #ff416c, #ff4b2b);
-    }
+    .btn.discord { background: linear-gradient(to right, #8e44ff, #5f00ba); }
+    .btn.coming { background: linear-gradient(to right, #ff416c, #ff4b2b); }
 
     .footer {
       font-size: 12px;
@@ -209,33 +229,46 @@
       pointer-events: none;
     }
 
+    #clock {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      font-size: 14px;
+      font-family: monospace;
+      background: rgba(18, 0, 30, 0.7);
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: #e0cfff;
+      box-shadow: 0 0 8px rgba(142, 68, 255, 0.3);
+      z-index: 10;
+    }
+
     @media (max-width: 768px) {
-      .card {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .right-panel {
-        text-align: center;
-      }
-
-      h2 {
-        font-size: 26px;
-      }
-
-      .cursor-dot {
-        display: none;
-      }
+      .card { flex-direction: column; text-align: center; }
+      .right-panel { text-align: center; }
+      h2 { font-size: 26px; }
+      .cursor-dot { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <canvas id="particles"></canvas>
-  <div class="cursor-dot"></div>
-  <audio id="bg-music" autoplay></audio>
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="loader"></div>
+  </div>
 
-  <div class="card">
+  <!-- Particles -->
+  <canvas id="particles"></canvas>
+
+  <!-- Cursor -->
+  <div class="cursor-dot"></div>
+
+  <!-- Background music -->
+  <audio id="bg-music" autoplay loop></audio>
+
+  <!-- Main card -->
+  <div class="card" id="main-card">
     <div class="left-panel">
       <img class="profile-pic" src="https://i.pinimg.com/736x/d1/d6/76/d1d676fd366801f11e0153cd1b0b6b1e.jpg" alt="Profile Picture">
       <div class="socials">
@@ -254,47 +287,70 @@
     </div>
   </div>
 
+  <!-- Footer -->
   <div class="footer">⚡ Made by <a href="https://github.com/hxncvxz" target="_blank">hxncvxz</a></div>
 
+  <!-- Clock -->
+  <div id="clock"></div>
+
   <script>
+    // Preloader
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("preloader").style.display = "none";
+        document.getElementById("main-card").classList.add("show");
+      }, 600);
+    });
+
     // Typing animation
     const tagline = document.getElementById('tagline');
     const phrases = [
-      "Everything you need, in one place.",
-      "Built different. Stay cracked.",
-      "Dark. Clean. Yours."
+      "Join my Discord. Or else. 😐",
+      "Sub to my Insta before I report you.",
+      "Site so clean it makes your brain lag.",
+      "You clicked? NPC detected.",
+      "Made for sigma, not for cringe.",
+      "Internet was better before you joined.",
+      "Your browser has 2 braincells left.",
+      "Rizz certified. 🧠🔥",
+      "Don’t scroll. Touch grass instead.",
+      "Built with 0 bugs. 100% cap.",
+      "404: Your dad’s approval not found.",
+      "Skibidi your way outta here.",
+      "Mobile users, blink twice for help.",
+      "Touching the screen won’t make you cool.",
+      "Boomers can’t handle this UI.",
+      "You’re not him. But this site is.",
+      "Please pretend to be impressed.",
     ];
     let i = 0, j = 0, currentPhrase = [], isDeleting = false;
-
     function loop() {
       tagline.innerHTML = currentPhrase.join('') + '<span class="blinker">|</span>';
       if (!isDeleting && j < phrases[i].length) currentPhrase.push(phrases[i][j++]);
       else if (isDeleting && j > 0) currentPhrase.pop(), j--;
       if (j === phrases[i].length) isDeleting = true;
       if (j === 0 && isDeleting) isDeleting = false, i = (i + 1) % phrases.length;
-      setTimeout(loop, isDeleting ? 40 : 100);
+      setTimeout(loop, isDeleting ? 40 : 90);
     }
     loop();
 
-    // Cursor dot
+    // Cursor
     const dot = document.querySelector('.cursor-dot');
     document.addEventListener('mousemove', e => {
       dot.style.top = `${e.clientY}px`;
       dot.style.left = `${e.clientX}px`;
     });
 
-    // Particle background
+    // Particles
     const canvas = document.getElementById("particles");
     const ctx = canvas.getContext("2d");
     let particles = [];
-
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
-
     function createParticles() {
       for (let i = 0; i < 60; i++) {
         particles.push({
@@ -307,7 +363,6 @@
         });
       }
     }
-
     function drawParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => {
@@ -317,7 +372,6 @@
         ctx.fill();
         p.x += p.dx;
         p.y += p.dy;
-
         if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) {
           p.x = Math.random() * canvas.width;
           p.y = Math.random() * canvas.height;
@@ -325,30 +379,32 @@
       });
       requestAnimationFrame(drawParticles);
     }
-
     createParticles();
     drawParticles();
 
-    // Shuffle and play music
-    const audio = document.getElementById("bg-music");
-    const songs = [
-      'classic.mp3',
-      'vibez.mp3',
-      'chill.mp3',
-      'darksoul.mp3'
-    ];
-    let played = [], current;
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById("clock").textContent = `${h}:${m}:${s}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
 
+    // Music shuffle
+    const audio = document.getElementById("bg-music");
+    const songs = ["classic.mp3", "vibez.mp3", "chill.mp3", "darksoul.mp3"];
+    let played = [];
     function getNextSong() {
       if (played.length === songs.length) played = [];
       let next;
-      do {
-        next = Math.floor(Math.random() * songs.length);
-      } while (played.includes(next));
+      do { next = Math.floor(Math.random() * songs.length); }
+      while (played.includes(next));
       played.push(next);
       return songs[next];
     }
-
     function playShuffledSong() {
       const nextSong = getNextSong();
       audio.src = `Music/${nextSong}`;
@@ -356,15 +412,11 @@
         document.body.addEventListener('click', () => audio.play(), { once: true });
       });
     }
-
     window.addEventListener('load', () => {
       audio.volume = 0.5;
       playShuffledSong();
     });
-
-    audio.addEventListener('ended', () => {
-      playShuffledSong();
-    });
+    audio.addEventListener('ended', () => playShuffledSong());
   </script>
 </body>
 </html>
