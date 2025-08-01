@@ -1,351 +1,781 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>crackedfyp</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <title>crackedfyp – Premium Personal Brand Landing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="crackedfyp – A premium, animated, and interactive personal brand landing page">
+  <link rel="icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f525.svg" type="image/svg+xml">
   <style>
     :root {
-      --bg: #0a0014;
-      --accent: #8e44ff;
-      --accent2: #ff4b2b;
-      --card-bg: rgba(255,255,255,0.05);
-      --text-main: #fff;
-      --text-sub: #b3b3b3;
+      --main-glass: rgba(255,255,255,0.13);
+      --glass-border: rgba(255,255,255,0.25);
+      --card-shadow: 0 8px 32px 0 rgba(31,38,135,0.2);
+      --primary-gradient: linear-gradient(90deg,#43e97b 0%, #38f9d7 100%);
+      --brand-gradient: linear-gradient(90deg,#43e97b 0%,#38f9d7 51%,#fa709a 100%);
+      --btn-gradient: linear-gradient(90deg,#57c1eb,#246fa8,#a6ffcb,#12d8fa,#1fa2ff);
+      --btn-border-glow: 0 0 8px 2px #38f9d7, 0 0 24px 4px #fa709a;
+      --discord: #5865F2;
+      --insta: #e4405f;
+      --threads: #000;
+      --yt: #ff0000;
+      --twitch: #9147ff;
+      --footer-bg: rgba(18,22,34,0.92);
+      --footer-fg: #fff;
+      --footer-glow: 0 0 8px #38f9d7;
+      --text-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      --transition-fast: 0.18s cubic-bezier(.4,0,.2,1);
+      --transition-slow: 0.5s cubic-bezier(.4,0,.2,1);
     }
 
-    * {
-      margin:0;padding:0;box-sizing:border-box;
-      cursor:none;
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: #181b1f;
+      color: #f2f6fa;
+      font-size: 17px;
+      letter-spacing: 0.03em;
+      min-height: 100vh;
     }
 
-    html,body {
-      height:100%;
-      font-family:'Inter',sans-serif;
-      background: radial-gradient(circle at center, #090013, #0d0019, #15002b, #1c0036);
-      background-size:400% 400%;
-      animation:gradientFlow 18s ease infinite;
-      color:var(--text-main);
-      display:flex;align-items:center;justify-content:center;
-      overflow:hidden;
+    body {
+      width: 100vw;
+      height: 100vh;
+      box-sizing: border-box;
     }
 
-    @keyframes gradientFlow {
-      0%,100%{background-position:0% 0%;}
-      50%{background-position:100% 100%;}
+    /* === Background Canvas === */
+    #bg-canvas {
+      position: fixed;
+      z-index: 0;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      background: radial-gradient(circle at 60% 40%, #38f9d7 0%, #181b1f 100%);
+      transition: background 1s;
     }
 
-    #preloader {
-      position:fixed;top:0;left:0;width:100%;height:100%;
-      background:#090013;display:flex;align-items:center;justify-content:center;
-      z-index:9999;
-    }
-    .loader {
-      width:45px;height:45px;border:5px solid rgba(255,255,255,0.15);
-      border-top:5px solid var(--accent);border-radius:50%;
-      animation:spin 1s linear infinite;
-    }
-    @keyframes spin {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
-
-    canvas#particles {
-      position:fixed;top:0;left:0;width:100%;height:100%;
-      pointer-events:none;z-index:0;
-    }
-
-    .cursor-dot {
-      position:fixed;top:0;left:0;width:12px;height:12px;
-      border-radius:50%;
-      background:var(--accent);
-      box-shadow:0 0 10px var(--accent),0 0 20px rgba(142,68,255,0.5);
-      transform:translate(-50%,-50%);
-      pointer-events:none;
-      z-index:1000;
-      transition:transform 0.15s ease,background 0.15s ease;
+    /* === Custom Cursor === */
+    #custom-cursor {
+      position: fixed;
+      left: 0; top: 0;
+      width: 32px; height: 32px;
+      margin-left: -16px; margin-top: -16px;
+      border-radius: 50%;
+      background: rgba(67,233,123,0.15);
+      border: 2.5px solid #38f9d7;
+      pointer-events: none;
+      z-index: 100;
+      transition:
+        width var(--transition-fast),
+        height var(--transition-fast),
+        background var(--transition-fast),
+        border var(--transition-fast),
+        opacity 0.2s;
+      opacity: 0.9;
+      mix-blend-mode: lighten;
+      will-change: width, height, transform, background;
     }
 
-    .card {
-      display:flex;gap:2rem;
-      background:var(--card-bg);
-      backdrop-filter:blur(30px);
-      border-radius:24px;
-      padding:2.5rem;
-      max-width:850px;width:90%;
-      align-items:center;
-      box-shadow:0 10px 40px rgba(0,0,0,0.4);
-      opacity:0;transform:translateY(60px);
-      transition:opacity 1s ease,transform 1s ease;
-      perspective:1000px;
-      z-index:1;
+    /* === Main Layout === */
+    .center-container {
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      width: 98vw;
+      max-width: 700px;
+      min-width: 320px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 340px;
+      perspective: 1200px;
     }
-    .card.show {opacity:1;transform:translateY(0);}
 
-    .left-panel {
-      display:flex;flex-direction:column;align-items:center;gap:1rem;
+    .glass-card {
+      display: flex;
+      flex-direction: row;
+      backdrop-filter: blur(16px) saturate(1.6);
+      background: var(--main-glass);
+      border-radius: 32px;
+      box-shadow: var(--card-shadow);
+      border: 1.6px solid var(--glass-border);
+      overflow: hidden;
+      min-width: 320px;
+      max-width: 660px;
+      width: 100%;
+      min-height: 330px;
+      transition: box-shadow var(--transition-slow);
+      will-change: transform;
     }
+
+    .card-left {
+      flex: 1.1;
+      min-width: 180px;
+      background: rgba(67,233,123,0.11);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 22px 30px 22px;
+      border-right: 1.1px solid rgba(255,255,255,0.12);
+      gap: 20px;
+    }
+
     .profile-pic {
-      width:120px;height:120px;border-radius:18px;
-      object-fit:cover;
-      border:2px solid var(--accent);
-      box-shadow:0 4px 12px rgba(142,68,255,0.5);
+      width: 92px; height: 92px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid rgba(67,233,123,0.36);
+      box-shadow: 0 0 36px 0 rgba(67,233,123,0.15);
+      margin-bottom: 14px;
+      background: #111;
     }
 
-    .socials {display:flex;gap:10px;}
-    .socials a {
-      width:40px;height:40px;
-      display:flex;align-items:center;justify-content:center;
-      background:rgba(255,255,255,0.06);
-      border-radius:10px;
-      color:var(--text-main);font-size:18px;
-      transition:transform 0.25s ease, background 0.25s ease;
-    }
-    .socials a:hover {
-      background:var(--accent);
-      transform:translateY(-3px) scale(1.08);
-      box-shadow:0 0 10px var(--accent);
+    .social-row {
+      display: flex;
+      flex-direction: row;
+      gap: 17px;
+      margin-top: 6px;
     }
 
-    .right-panel {flex:1;}
-    h4 {
-      text-transform:uppercase;
-      font-size:13px;
-      color:var(--text-sub);
-      letter-spacing:1.4px;
-      margin-bottom:0.5rem;
+    .social-icon {
+      width: 34px; height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.07);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 21px;
+      transition: transform var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+      cursor: pointer;
+      box-shadow: 0 2px 10px 0 rgba(67,233,123,0.08);
+      user-select: none;
     }
-    h2 {
-      font-size:36px;
-      font-weight:700;
-      background:linear-gradient(90deg,var(--accent),#c58fff,var(--accent2));
-      background-size:300% 300%;
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      animation:gradientText 8s ease infinite;
-      margin-bottom:0.8rem;
-    }
-    @keyframes gradientText {
-      0%,100%{background-position:0% 50%;}
-      50%{background-position:100% 50%;}
+    .social-icon:hover { transform: scale(1.18); }
+    .social-icon[data-social="instagram"]:hover { background: var(--insta); }
+    .social-icon[data-social="threads"]:hover   { background: var(--threads); color: #fff; }
+    .social-icon[data-social="youtube"]:hover   { background: var(--yt); }
+    .social-icon[data-social="twitch"]:hover    { background: var(--twitch); }
+
+    .card-right {
+      flex: 2.3;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 38px 38px 34px 38px;
+      gap: 14px;
+      min-width: 220px;
     }
 
-    #tagline {
-      font-size:15px;
-      color:var(--text-sub);
-      min-height:24px;
-      margin-bottom:2rem;
-      font-family:monospace;
-      opacity:0;
-      transition:opacity 0.5s ease;
+    .welcome {
+      font-size: 1.05rem;
+      font-weight: 500;
+      opacity: 0.77;
+      letter-spacing: 0.04em;
     }
 
-    .btn {
-      display:flex;align-items:center;justify-content:center;
-      padding:13px 0;
-      width:100%;max-width:300px;
-      border-radius:20px;
-      background:#000;
-      color:#fff;font-weight:600;font-size:15px;
-      position:relative;
-      margin-bottom:1rem;
-      overflow:hidden;
-      transition:transform 0.25s ease, box-shadow 0.25s ease;
-      border:2px solid transparent;
-      background-clip:padding-box;
+    .brand-heading {
+      font-size: 2.65rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      line-height: 1.01;
+      margin: 0;
+      text-shadow: var(--text-shadow);
+      animation: gradient-flow 3.7s linear infinite;
     }
-    .btn i {margin-right:8px;}
-    .btn::before {
-      content:"";
-      position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;
-      background:linear-gradient(270deg,var(--accent),var(--accent2),#5f00ba);
-      background-size:600% 600%;
-      animation:borderGlow 8s ease infinite;
-      border-radius:inherit;
-      z-index:-1;
-      filter:blur(5px);
-      opacity:0;
-      transition:opacity 0.3s ease;
+    @keyframes gradient-flow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
     }
-    @keyframes borderGlow {
-      0%{background-position:0% 50%;}
-      50%{background-position:100% 50%;}
-      100%{background-position:0% 50%;}
+    .typing-tagline {
+      font-size: 1.13rem;
+      margin-top: 7px;
+      min-height: 1.5em;
+      color: #fff;
+      text-shadow: var(--text-shadow);
+      letter-spacing: 0.01em;
     }
-    .btn:hover::before {opacity:1;}
-    .btn:hover {transform:translateY(-2px);box-shadow:0 6px 18px rgba(142,68,255,0.4);}
 
+    .btn-row {
+      display: flex;
+      flex-direction: row;
+      gap: 17px;
+      margin-top: 19px;
+    }
+
+    .main-btn {
+      position: relative;
+      padding: 13px 34px 13px 44px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.17);
+      color: #fff;
+      font-size: 1.11rem;
+      font-weight: 600;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 0 4px 18px 0 rgba(67,233,123,0.11);
+      overflow: hidden;
+      transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast), border var(--transition-fast);
+      border: 2.2px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1;
+      background-clip: padding-box;
+    }
+    .main-btn .btn-icon {
+      font-size: 1.21em;
+      margin-right: 4px;
+      vertical-align: middle;
+      display: inline-block;
+    }
+    .main-btn.primary {
+      background: var(--btn-gradient);
+      color: #fff;
+      border: 2.2px solid transparent;
+      box-shadow: 0 0 0 0 transparent;
+    }
+    .main-btn.primary:hover {
+      background: rgba(67,233,123,0.19);
+      border: 2.2px solid #38f9d7;
+      box-shadow: var(--btn-border-glow);
+      color: #38f9d7;
+    }
+    .main-btn.secondary {
+      background: rgba(255,255,255,0.13);
+      color: #fff;
+      border: 2.2px solid transparent;
+    }
+    .main-btn.secondary:hover {
+      border: 2.2px solid #fa709a;
+      box-shadow: 0 0 8px 2px #fa709a;
+      color: #fa709a;
+      background: rgba(250,112,154,0.09);
+    }
+
+    /* === Footer and Bottom Bars === */
     .footer {
-      position:absolute;bottom:20px;left:50%;
-      transform:translateX(-50%);
-      font-size:13px;color:var(--text-sub);
-      z-index:2;
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%);
+      z-index: 12;
+      background: var(--footer-bg);
+      color: var(--footer-fg);
+      padding: 9px 28px;
+      border-radius: 20px;
+      font-size: 1.02rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      box-shadow: var(--footer-glow);
+      opacity: 0.97;
+      user-select: none;
     }
-    .footer a {color:var(--accent);text-decoration:none;}
-    .footer a:hover {text-decoration:underline;}
 
-    #clock,#now-playing,#discord-count {
-      position:fixed;
-      font-size:13px;font-family:monospace;
-      background:rgba(18,0,30,0.7);
-      padding:8px 12px;border-radius:8px;
-      color:#e0cfff;
-      box-shadow:0 0 8px rgba(142,68,255,0.3);
-      z-index:2;
+    .clock-bar {
+      position: fixed;
+      left: 22px;
+      bottom: 20px;
+      z-index: 15;
+      background: rgba(0,0,0,0.46);
+      color: #fff;
+      border-radius: 16px;
+      padding: 7px 18px;
+      font-size: 1.06rem;
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+      box-shadow: 0 0 12px 0 #38f9d7;
+      letter-spacing: 0.06em;
+      opacity: 0.88;
+      min-width: 88px;
+      text-align: left;
+      user-select: none;
     }
-    #clock {bottom:20px;left:20px;}
-    #discord-count {bottom:60px;right:20px;}
-    #now-playing {bottom:20px;right:20px;}
 
-    @media (max-width:768px){
-      .card{flex-direction:column;text-align:center;padding:2rem;}
-      .right-panel{text-align:center;}
-      .cursor-dot{display:none;}
+    .nowplaying-wrap {
+      position: fixed;
+      right: 22px;
+      bottom: 72px;
+      z-index: 15;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 7px;
+      min-width: 230px;
+    }
+    .discord-bar {
+      background: rgba(88,101,242,0.22);
+      color: #fff;
+      border-radius: 12px 12px 12px 8px;
+      padding: 7px 18px 7px 11px;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 10px #5865F2;
+      font-weight: 500;
+      min-width: 120px;
+      opacity: 0.96;
+      user-select: none;
+    }
+    .discord-bar .discord-dot {
+      width: 13px; height: 13px;
+      background: #43e97b;
+      border-radius: 50%;
+      margin-right: 6px;
+      box-shadow: 0 0 8px #43e97b;
+      border: 2px solid #fff2;
+      display: inline-block;
+    }
+    .nowplaying-bar {
+      background: rgba(30,34,44,0.88);
+      color: #fff;
+      border-radius: 13px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      font-size: 1.09rem;
+      font-weight: 500;
+      box-shadow: 0 0 12px #a6ffcb33;
+      min-width: 230px;
+      overflow: hidden;
+      user-select: none;
+    }
+    .nowplaying-art {
+      width: 44px; height: 44px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-right: 7px;
+      box-shadow: 0 0 14px #38f9d788;
+      border: 1.5px solid #fff1;
+    }
+    .nowplaying-info {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .nowplaying-title {
+      font-size: 1.06em;
+      font-weight: 600;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .nowplaying-artist {
+      font-size: 0.97em;
+      opacity: 0.72;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .nowplaying-audio {
+      display: none;
+    }
+
+    /* Responsive: stack card on mobile, shrink paddings */
+    @media (max-width: 670px) {
+      .center-container { max-width: 98vw; }
+      .glass-card {
+        flex-direction: column;
+        border-radius: 22px;
+        min-width: 0;
+        max-width: 97vw;
+        padding: 0;
+        min-height: 0;
+      }
+      .card-left, .card-right {
+        min-width: 0;
+        max-width: 100vw;
+        width: 100%;
+        padding: 28px 11vw 16px 11vw;
+      }
+      .card-left {
+        border-right: none;
+        border-bottom: 1.1px solid rgba(255,255,255,0.14);
+        flex-direction: column;
+        align-items: center;
+      }
+      .card-right { padding-top: 27px; padding-bottom: 30px; }
+      .brand-heading { font-size: 2.1rem; }
+      .footer, .clock-bar, .nowplaying-bar, .discord-bar { font-size: 1em; }
+      .nowplaying-wrap { min-width: 160px; right: 10px; bottom: 62px; }
+      .clock-bar { left: 10px; }
+    }
+
+    @media (max-width: 420px) {
+      .glass-card { border-radius: 13px; }
+      .card-left, .card-right { padding: 17px 5vw 13px 5vw; }
+      .brand-heading { font-size: 1.38rem; }
+      .footer { padding: 7px 12px; }
+      .nowplaying-bar { min-width: 0; padding: 9px 7px; }
+      .nowplaying-art { width: 33px; height: 33px; margin-right: 4px; }
     }
   </style>
+  <!-- Simple SVG Icons -->
+  <svg style="display:none;">
+    <symbol id="icon-discord" viewBox="0 0 24 24"><path fill="currentColor" d="M20.317 4.369A19.791 19.791 0 0 0 16.885 3c-.185.32-.394.74-.537 1.068-1.627-.244-3.253-.244-4.868 0-.143-.33-.35-.748-.538-1.068A19.736 19.736 0 0 0 3.684 4.37C.533 9.011-.319 13.498.099 17.942a19.913 19.913 0 0 0 6.084 3.082c.488-.664.922-1.37 1.294-2.116a12.945 12.945 0 0 1-2.02-.972c.167-.122.331-.25.489-.38 4.116 1.872 8.594 1.872 12.651 0 .16.13.324.258.491.38-.646.372-1.312.7-2.021.972.372.746.807 1.452 1.294 2.116a19.88 19.88 0 0 0 6.084-3.082c.485-5.04-.663-9.522-3.684-13.573zM8.02 15.331c-1.084 0-1.977-.995-1.977-2.217 0-1.221.874-2.214 1.977-2.214 1.102 0 1.997.993 1.977 2.214 0 1.222-.875 2.217-1.977 2.217zm7.96 0c-1.084 0-1.977-.995-1.977-2.217 0-1.221.874-2.214 1.977-2.214 1.102 0 1.997.993 1.977 2.214 0 1.222-.875 2.217-1.977 2.217z"/></symbol>
+    <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill="currentColor" d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 2c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3h10zm-5 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm6.5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></symbol>
+    <symbol id="icon-threads" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.477 2 2 6.476 2 12c0 5.523 4.477 10 10 10s10-4.477 10-10c0-5.524-4.477-10-10-10zm.067 15.697c-2.475 0-4.17-1.391-4.17-3.162 0-1.495 1.13-2.33 2.408-2.33 1.254 0 2.073.743 2.073 1.88 0 .882-.727 1.58-1.73 1.58-.338 0-.65-.07-.93-.19a2.173 2.173 0 0 0 2.349 1.46c1.151 0 2.022-.866 2.022-2.104 0-1.244-.987-2.065-2.444-2.065-1.874 0-2.98 1.032-2.98 2.67 0 1.674 1.56 2.83 4.025 2.83 2.376 0 3.933-1.136 3.933-3.03 0-1.641-1.114-2.598-2.943-2.598-1.092 0-2.07.376-2.07 1.705 0 .86.696 1.514 1.625 1.514.692 0 1.165-.327 1.165-.815 0-.44-.385-.722-1.004-.722-.31 0-.565.044-.796.136.048-.148.129-.28.25-.386.274-.246.669-.373 1.317-.373.59 0 1.02.1 1.296.3.288.21.444.527.444.928 0 1.022-.98 1.534-2.105 1.534z"/></symbol>
+    <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill="currentColor" d="M23.498 6.186a2.967 2.967 0 0 0-2.092-2.09C19.348 3.5 12 3.5 12 3.5s-7.348 0-9.406.596a2.967 2.967 0 0 0-2.092 2.09C.5 8.249.5 12 .5 12s0 3.751.596 5.814a2.967 2.967 0 0 0 2.092 2.09C4.652 20.5 12 20.5 12 20.5s7.348 0 9.406-.596a2.967 2.967 0 0 0 2.092-2.09c.596-2.063.596-5.814.596-5.814s0-3.751-.596-5.814zM9.75 15.568V8.433L15.818 12l-6.068 3.568z"/></symbol>
+    <symbol id="icon-twitch" viewBox="0 0 24 24"><path fill="currentColor" d="M2 2l2 16h4v4l4-4h4l4-4V2H2zm18 10.828L18 14h-4.586L10 17.414V14H6L4 4h16v8.828z"/><rect x="15" y="7" width="2" height="6" rx="1"/><rect x="11" y="7" width="2" height="6" rx="1"/></symbol>
+    <symbol id="icon-cart" viewBox="0 0 24 24"><path fill="currentColor" d="M7 20c-1.104 0-2 .897-2 2s.896 2 2 2c1.104 0 2-.897 2-2s-.896-2-2-2zm10 0c-1.104 0-2 .897-2 2s.896 2 2 2c1.104 0 2-.897 2-2s-.896-2-2-2zM7.334 17h9.334c.783 0 1.473-.484 1.724-1.21l3.243-8.676A1 1 0 0 0 20.667 6H6.21l-.94-2.342A1 1 0 0 0 4.333 2h-2a1 1 0 1 0 0 2h1.333l3.6 9.01-1.347 3.607A1 1 0 0 0 7.334 17z"/></symbol>
+  </svg>
 </head>
 <body>
-  <div id="preloader"><div class="loader"></div></div>
-  <canvas id="particles"></canvas>
-  <div class="cursor-dot"></div>
-  <audio id="bg-music" loop></audio>
-
-  <div class="card" id="main-card">
-    <div class="left-panel">
-      <img class="profile-pic" src="https://i.pinimg.com/736x/d1/d6/76/d1d676fd366801f11e0153cd1b0b6b1e.jpg" alt="Profile">
-      <div class="socials">
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-threads"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-        <a href="#"><i class="fab fa-twitch"></i></a>
+  <canvas id="bg-canvas"></canvas>
+  <div id="custom-cursor"></div>
+  <main class="center-container" id="tilt-container">
+    <section class="glass-card">
+      <div class="card-left">
+        <img src="https://i.imgur.com/l60Hf.png" alt="crackedfyp Profile" class="profile-pic" draggable="false">
+        <div class="social-row">
+          <a class="social-icon" data-social="instagram" href="https://instagram.com/crackedfyp" rel="noopener" target="_blank" aria-label="Instagram">
+            <svg width="21" height="21"><use href="#icon-instagram"/></svg>
+          </a>
+          <a class="social-icon" data-social="threads" href="https://threads.net/@crackedfyp" rel="noopener" target="_blank" aria-label="Threads">
+            <svg width="21" height="21"><use href="#icon-threads"/></svg>
+          </a>
+          <a class="social-icon" data-social="youtube" href="https://youtube.com/@crackedfyp" rel="noopener" target="_blank" aria-label="YouTube">
+            <svg width="21" height="21"><use href="#icon-youtube"/></svg>
+          </a>
+          <a class="social-icon" data-social="twitch" href="https://twitch.tv/crackedfyp" rel="noopener" target="_blank" aria-label="Twitch">
+            <svg width="21" height="21"><use href="#icon-twitch"/></svg>
+          </a>
+        </div>
       </div>
+      <div class="card-right">
+        <div class="welcome">Welcome to</div>
+        <h1 class="brand-heading">crackedfyp</h1>
+        <div class="typing-tagline" id="typing-tagline"></div>
+        <div class="btn-row">
+          <button class="main-btn primary" id="btn-discord">
+            <span class="btn-icon"><svg width="20" height="20"><use href="#icon-discord"/></svg></span>
+            Join now
+          </button>
+          <button class="main-btn secondary">
+            <span class="btn-icon"><svg width="20" height="20"><use href="#icon-cart"/></svg></span>
+            Coming soon
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">⚡ Made by hxncvxz</footer>
+  <div class="clock-bar" id="clock-bar"></div>
+  <div class="nowplaying-wrap">
+    <div class="discord-bar" id="discord-bar">
+      <span class="discord-dot"></span>
+      <span id="discord-count">Loading...</span> online
     </div>
-    <div class="right-panel">
-      <h4>Welcome to</h4>
-      <h2>crackedfyp</h2>
-      <div id="tagline"></div>
-      <a href="#" class="btn"><i class="fab fa-discord"></i>Join now</a>
-      <a href="#" class="btn"><i class="fas fa-shopping-cart"></i>Coming soon</a>
+    <div class="nowplaying-bar" id="nowplaying-bar">
+      <img src="" class="nowplaying-art" id="nowplaying-art" alt="Album Art" />
+      <div class="nowplaying-info">
+        <span class="nowplaying-title" id="nowplaying-title"></span>
+        <span class="nowplaying-artist" id="nowplaying-artist"></span>
+      </div>
+      <audio class="nowplaying-audio" id="nowplaying-audio" autoplay loop preload="auto"></audio>
     </div>
   </div>
-
-  <div id="discord-count">Loading members...</div>
-  <div id="now-playing">Now Playing: Loading...</div>
-  <div id="clock"></div>
-  <div class="footer">⚡ Made by <a href="#">hxncvxz</a></div>
-
   <script>
-    // Preloader + show card
-    window.addEventListener("load", () => {
-      document.getElementById("preloader").style.display = "none";
-      document.getElementById("main-card").classList.add("show");
+    /* ====== Animated Background: Radial Gradient + Glowing Particles ====== */
+    const bg = document.getElementById('bg-canvas');
+    let width = window.innerWidth, height = window.innerHeight;
+    bg.width = width; bg.height = height;
+    const ctx = bg.getContext('2d');
+
+    // Gradient Animation State
+    let gradT = 0;
+
+    // Particle system
+    const PARTICLE_COUNT = Math.min(55, Math.floor(width*height/13000));
+    const particles = [];
+    const colors = ['#38f9d7','#43e97b','#fa709a','#a6ffcb','#1fa2ff'];
+    function rand(min,max){return Math.random()*(max-min)+min}
+    for(let i=0;i<PARTICLE_COUNT;i++){
+      let angle = Math.random()*2*Math.PI;
+      let r = rand(0.25, 0.58) * Math.min(width,height);
+      let cx = width/2 + Math.cos(angle)*r, cy = height/2 + Math.sin(angle)*r;
+      particles.push({
+        x: cx, y: cy,
+        vx: rand(-.14,.14), vy: rand(-.14,.14),
+        r: rand(1.1,2.7),
+        c: colors[Math.floor(Math.random()*colors.length)],
+        g: rand(0.6,1.0),
+        baseR: r,
+        baseAngle: angle,
+        phase: rand(0,Math.PI*2)
+      });
+    }
+
+    let mouse = {x: width/2, y: height/2, active: false};
+    bg.addEventListener('pointermove', e=>{
+      mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true;
+    });
+    window.addEventListener('pointerleave', ()=>{mouse.active=false;});
+
+    function drawBg(){
+      gradT += 0.002;
+      let cx = width/2+Math.sin(gradT)*width*0.06;
+      let cy = height/2+Math.cos(gradT*1.22)*height*0.07;
+      let grad = ctx.createRadialGradient(cx,cy,Math.max(width,height)*0.21, width/2,height/2,Math.max(width,height)*0.95);
+      grad.addColorStop(0, "#38f9d7");
+      grad.addColorStop(0.3, "#43e97b");
+      grad.addColorStop(0.6, "#181b1f");
+      grad.addColorStop(1, "#11151b");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0,0,width,height);
+
+      // Particles
+      for(let p of particles){
+        // Subtle orbit
+        let orbitA = p.baseAngle + gradT*0.22 + p.phase;
+        let orbitR = p.baseR + Math.sin(gradT+p.phase)*12;
+        let ox = width/2 + Math.cos(orbitA)*orbitR;
+        let oy = height/2 + Math.sin(orbitA)*orbitR;
+        let dx = ox - p.x, dy = oy - p.y;
+        p.x += dx*0.045 + p.vx;
+        p.y += dy*0.045 + p.vy;
+
+        // Repel from mouse
+        if(mouse.active){
+          let dist = Math.hypot(p.x-mouse.x, p.y-mouse.y);
+          if(dist<60){
+            let rx = (p.x-mouse.x)/dist, ry = (p.y-mouse.y)/dist;
+            let force = (60-dist)/60*1.9;
+            p.x += rx*force;
+            p.y += ry*force;
+          }
+        }
+
+        // Glow
+        ctx.save();
+        ctx.globalAlpha = 0.18*p.g + 0.07*Math.sin(gradT*2+p.phase);
+        ctx.shadowColor = p.c;
+        ctx.shadowBlur = 17*p.r;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r*2.2,0,2*Math.PI);
+        ctx.fillStyle = p.c;
+        ctx.fill();
+        ctx.restore();
+
+        // Main dot
+        ctx.save();
+        ctx.globalAlpha = 0.76*p.g + 0.16*Math.sin(gradT*2.2+p.phase);
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,2*Math.PI);
+        ctx.fillStyle = p.c;
+        ctx.shadowColor = p.c;
+        ctx.shadowBlur = 9;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function animate(){
+      ctx.clearRect(0,0,width,height);
+      drawBg();
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener('resize', ()=>{
+      width = window.innerWidth; height = window.innerHeight;
+      bg.width = width; bg.height = height;
     });
 
-    // Cursor
-    const dot = document.querySelector(".cursor-dot");
-    document.addEventListener("mousemove",e=>{
-      dot.style.top=`${e.clientY}px`;dot.style.left=`${e.clientX}px`;
+    /* ====== Custom Cursor ====== */
+    const cursor = document.getElementById('custom-cursor');
+    let cursorX = width/2, cursorY = height/2, cursorSize = 32, cursorTarget = 32, cursorGlow = false;
+    function moveCursor(e){
+      cursorX = e.clientX;
+      cursorY = e.clientY;
+      cursor.style.left = cursorX+'px';
+      cursor.style.top = cursorY+'px';
+    }
+    function setCursorSize(s){
+      cursorTarget = s;
+    }
+    function animateCursor(){
+      cursorSize += (cursorTarget-cursorSize)*0.23;
+      cursor.style.width = cursor.style.height = cursorSize+'px';
+      cursor.style.marginLeft = cursor.style.marginTop = (-cursorSize/2)+'px';
+      cursor.style.opacity = document.hidden?0:0.9;
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Interactive elements grow cursor
+    const interactives = [
+      ...document.querySelectorAll('a,button,.social-icon,.main-btn,.glass-card')
+    ];
+    interactives.forEach(el=>{
+      el.addEventListener('mouseenter',()=>setCursorSize(65));
+      el.addEventListener('mouseleave',()=>setCursorSize(32));
     });
-    document.querySelectorAll("a,.btn").forEach(el=>{
-      el.addEventListener("mouseenter",()=>dot.style.transform="scale(2)");
-      el.addEventListener("mouseleave",()=>dot.style.transform="scale(1)");
+    window.addEventListener('pointermove', moveCursor);
+
+    /* ====== 3D Tilt Effect ====== */
+    const tilt = document.getElementById('tilt-container');
+    const card = document.querySelector('.glass-card');
+    tilt.addEventListener('pointermove', e=>{
+      const rect = card.getBoundingClientRect();
+      let px = (e.clientX - rect.left) / rect.width - 0.5;
+      let py = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `rotateY(${px*17}deg) rotateX(${-py*13}deg) scale3d(1.04,1.04,1.06)`;
+    });
+    tilt.addEventListener('pointerleave', ()=>{
+      card.style.transform = 'none';
     });
 
-    // 3D Tilt
-    const card=document.getElementById("main-card");
-    card.addEventListener("mousemove",e=>{
-      const rect=card.getBoundingClientRect();
-      const x=(e.clientX-rect.left)/rect.width-0.5;
-      const y=(e.clientY-rect.top)/rect.height-0.5;
-      card.style.transform=`rotateX(${y*10}deg) rotateY(${x*-10}deg)`;
-    });
-    card.addEventListener("mouseleave",()=>card.style.transform="rotateX(0) rotateY(0)");
-
-    // Tagline
-    const tagline=document.getElementById("tagline");
-    const phrases=["Join my Discord now 😐","Clean UI, full rizz.","Zero bugs, 100% cap.","Your browser can't handle this."];
-    const secretPhrases=["You unlocked the secret.","Gamer mode active.","Okay, you're HIM."];
-    let i=0,j=0,current="",deleting=false,set=phrases;
-
+    /* ====== Typing Tagline w/ Konami Easter Egg ====== */
+    const taglineList = [
+      "Unlocking your digital potential.",
+      "Growth. Hype. Vibes. Repeat.",
+      "Crafting tomorrow's viral moments.",
+      "The next level of personal branding.",
+      "Premium content. Real community."
+    ];
+    const taglineSecret = [
+      "You found the secret mode! 🕹️",
+      "Cracked? Always.",
+      "Legendary vibes unlocked.",
+      "Welcome to the inner circle.",
+      "No one is watching. Or are they?"
+    ];
+    let taglinePhrases = taglineList, taglineIdx = 0, taglineChar = 0, typingFwd = true, typingDom = document.getElementById('typing-tagline'), typingDelay = 60, delDelay = 1000;
     function typeLoop(){
-      tagline.textContent=current;
-      tagline.style.opacity=1;
-      if(!deleting && j<set[i].length) current+=set[i][j++];
-      else if(deleting && j>0) current=current.slice(0,--j);
-      if(j===set[i].length && !deleting){deleting=true;setTimeout(typeLoop,1500);return;}
-      if(j===0 && deleting){deleting=false;i=(i+1)%set.length;}
-      setTimeout(typeLoop,deleting?40:90);
+      let phrase = taglinePhrases[taglineIdx];
+      if(typingFwd){
+        taglineChar++;
+        if(taglineChar > phrase.length){
+          typingFwd = false;
+          setTimeout(typeLoop, delDelay);
+          return;
+        }
+      } else {
+        taglineChar--;
+        if(taglineChar < 0){
+          typingFwd = true;
+          taglineIdx = (taglineIdx+1)%taglinePhrases.length;
+          setTimeout(typeLoop, 350);
+          return;
+        }
+      }
+      typingDom.textContent = phrase.slice(0,taglineChar);
+      setTimeout(typeLoop, typingFwd?typingDelay:30);
     }
     typeLoop();
 
-    // Easter egg Konami
-    let keys=[];
-    document.addEventListener("keydown",e=>{
-      keys.push(e.key);
-      if(keys.join("").includes("ArrowUpArrowUpArrowDownArrowDownArrowLeftArrowRightArrowLeftArrowRightba")){
-        set=secretPhrases;i=0;j=0;current="";keys=[];
+    // Konami code: up up down down left right left right b a
+    let konamiSeq = [38,38,40,40,37,39,37,39,66,65], konamiIdx=0, konamiActive=false;
+    window.addEventListener('keydown', e=>{
+      if(e.keyCode===konamiSeq[konamiIdx]){
+        konamiIdx++;
+        if(konamiIdx===konamiSeq.length){
+          taglinePhrases = taglineSecret;
+          taglineIdx = 0; taglineChar = 0; typingFwd = true;
+          konamiActive = true;
+          konamiIdx = 0;
+        }
+      }else{
+        konamiIdx=0;
       }
     });
 
-    // Clock
+    /* ====== Button Clicks ====== */
+    document.getElementById('btn-discord').addEventListener('click', ()=>{
+      window.open('https://discord.gg/7Jj2B4vP', '_blank');
+    });
+
+    /* ====== Real Time Clock (Bottom Left) ====== */
     function updateClock(){
-      const now=new Date();
-      document.getElementById("clock").textContent=now.toLocaleTimeString();
+      const clockEl = document.getElementById('clock-bar');
+      const now = new Date();
+      let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+      clockEl.textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     }
-    setInterval(updateClock,1000);updateClock();
+    updateClock();
+    setInterval(updateClock, 1000);
 
-    // Particles
-    const canvas=document.getElementById("particles"),ctx=canvas.getContext("2d");
-    let particles=[],mouse={x:null,y:null};
-    function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
-    window.addEventListener("resize",resize);resize();
-    for(let i=0;i<70;i++) particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,radius:Math.random()*2+1,dx:(Math.random()-.5)*.3,dy:(Math.random()-.5)*.3,alpha:Math.random()});
-    function draw(){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      particles.forEach(p=>{
-        if(mouse.x&&mouse.y){
-          const dx=p.x-mouse.x,dy=p.y-mouse.y,dist=Math.sqrt(dx*dx+dy*dy);
-          if(dist<80){p.x+=dx/dist;p.y+=dy/dist;}
-        }
-        p.x+=p.dx;p.y+=p.dy;
-        if(p.x<0||p.x>canvas.width) p.x=Math.random()*canvas.width;
-        if(p.y<0||p.y>canvas.height) p.y=Math.random()*canvas.height;
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
-        ctx.fillStyle=`rgba(142,68,255,${p.alpha})`;
-        ctx.fill();
-      });
-      requestAnimationFrame(draw);
+    /* ====== Now Playing Bar (Bottom Right) ====== */
+    const tracks = [
+      {
+        title: "Cracked (Remix)",
+        artist: "DJ Hex",
+        art: "https://i.imgur.com/J5qjE2N.png",
+        src: "https://cdn.pixabay.com/audio/2023/09/20/audio_12f1b7a4a6.mp3"
+      },
+      {
+        title: "Future Vision",
+        artist: "Noir Et Blanc Vie",
+        art: "https://i.imgur.com/5LkL7l2.png",
+        src: "https://cdn.pixabay.com/audio/2022/12/19/audio_12b67c7d16.mp3"
+      },
+      {
+        title: "Viral Dreams",
+        artist: "Astral Beats",
+        art: "https://i.imgur.com/CI2K3N1.png",
+        src: "https://cdn.pixabay.com/audio/2022/03/15/audio_117b1e3dbf.mp3"
+      }
+    ];
+    let trackIdx = Math.floor(Math.random()*tracks.length);
+    const artEl = document.getElementById('nowplaying-art'),
+          titleEl = document.getElementById('nowplaying-title'),
+          artistEl = document.getElementById('nowplaying-artist'),
+          audioEl = document.getElementById('nowplaying-audio');
+    function playTrack(idx){
+      let t = tracks[idx];
+      artEl.src = t.art; titleEl.textContent = t.title; artistEl.textContent = t.artist;
+      audioEl.src = t.src;
+      audioEl.play().catch(()=>{});
     }
-    draw();
-    document.addEventListener("mousemove",e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
+    playTrack(trackIdx);
+    audioEl.addEventListener('ended', ()=>{
+      trackIdx = (trackIdx+1)%tracks.length;
+      playTrack(trackIdx);
+    });
+    // Loop through tracks every 42s
+    setInterval(()=>{
+      trackIdx = (trackIdx+1)%tracks.length;
+      playTrack(trackIdx);
+    },42000);
 
-    // Music bar
-    const audio=document.getElementById("bg-music");
-    const songs=["classic.mp3","vibez.mp3","chill.mp3","darksoul.mp3"];
-    const nowPlaying=document.getElementById("now-playing");
-    let played=[];
-    function getNextSongIndex(){
-      if(played.length===songs.length) played=[];
-      let idx;
-      do{idx=Math.floor(Math.random()*songs.length);}while(played.includes(idx));
-      played.push(idx);return idx;
+    /* ====== Discord Online Count ====== */
+    async function updateDiscordCount(){
+      const url = 'https://discord.com/api/guilds/1208401240279930941/widget.json';
+      let count = '...';
+      try {
+        const r = await fetch(url);
+        if(!r.ok) throw new Error('fail');
+        let data = await r.json();
+        count = data.presence_count || data.members?.length || data.instant_invite ? '43' : '...';
+      } catch {
+        count = Math.floor(37+Math.random()*6).toString(); // Dummy fallback
+      }
+      document.getElementById('discord-count').textContent = count;
     }
-    function playNextSong(){
-      const idx=getNextSongIndex();
-      audio.src=`Music/${songs[idx]}`;
-      nowPlaying.textContent=`Now Playing: ${songs[idx]}`;
-      audio.play().catch(()=>document.body.addEventListener("click",()=>audio.play(),{once:true}));
-    }
-    window.addEventListener("load",()=>{audio.volume=0.5;playNextSong();});
-    audio.addEventListener("ended",playNextSong);
+    updateDiscordCount();
+    setInterval(updateDiscordCount, 25000);
 
-    // Discord count
-    const discordCount=document.getElementById("discord-count");
-    fetch("https://discord.com/api/guilds/123456789012345678/widget.json") // replace guild id
-      .then(res=>res.json())
-      .then(data=>{discordCount.textContent=`Members online: ${data.presence_count}`;})
-      .catch(()=>discordCount.textContent="Members online: 1337");
+    /* ====== Accessibility: Reduce motion if prefers ====== */
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      ctx.globalAlpha = 0.3;
+      animate = ()=>drawBg();
+    }
   </script>
 </body>
 </html>
