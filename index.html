@@ -1,431 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>crackedfyp</title>
-
-  <!-- Fonts and Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      cursor: none;
+    :root {
+      --bg: #0a0014;
+      --accent: #8e44ff;
+      --card-bg: rgba(255,255,255,0.05);
+      --text-main: #fff;
+      --text-sub: #b3b3b3;
     }
 
-    html, body {
-      height: 100%;
-      overflow: hidden;
-      font-family: 'Inter', sans-serif;
-    }
-
-    body {
+    * {margin:0;padding:0;box-sizing:border-box;}
+    html,body {
+      height:100%;
+      font-family:'Inter',sans-serif;
       background: radial-gradient(circle at center, #090013, #0d0019, #15002b, #1c0036);
-      background-size: 400% 400%;
-      animation: gradientFlow 15s ease infinite;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      position: relative;
+      background-size:400% 400%;
+      animation:gradientFlow 18s ease infinite;
+      color:var(--text-main);
+      display:flex;align-items:center;justify-content:center;
+      overflow:hidden;
     }
 
     @keyframes gradientFlow {
-      0%, 100% { background-position: 0% 0%; }
-      25% { background-position: 100% 0%; }
-      50% { background-position: 100% 100%; }
-      75% { background-position: 0% 100%; }
-    }
-
-    #preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 100vw;
-      background: #090013;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-
-    .loader {
-      border: 5px solid rgba(255, 255, 255, 0.1);
-      border-top: 5px solid #8e44ff;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin { 0% {transform: rotate(0deg);} 100% {transform: rotate(360deg);} }
-
-    .card {
-      display: flex;
-      gap: 2rem;
-      background: rgba(18, 0, 30, 0.95);
-      backdrop-filter: blur(25px);
-      border-radius: 20px;
-      border: 1px solid #7200b8;
-      box-shadow: 0 10px 40px rgba(140, 0, 255, 0.4);
-      padding: 2.5rem;
-      max-width: 850px;
-      width: 100%;
-      align-items: center;
-      opacity: 0;
-      transform: translateY(60px);
-      transition: 1s ease;
-      z-index: 2;
-      perspective: 1000px;
-    }
-
-    .card.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .left-panel {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .profile-pic {
-      width: 130px;
-      height: 130px;
-      border-radius: 16px;
-      object-fit: cover;
-      border: 2px solid #7200b8;
-    }
-
-    .socials {
-      display: flex;
-      gap: 10px;
-    }
-
-    .socials a {
-      background: #140022;
-      padding: 10px;
-      border-radius: 8px;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      width: 36px;
-      height: 36px;
-      transition: 0.3s ease;
-    }
-
-    .socials a:hover {
-      background: #8e44ff;
-      transform: scale(1.2) rotate(10deg);
-      box-shadow: 0 0 10px #8e44ff;
-    }
-
-    .right-panel { flex: 1; text-align: left; }
-
-    h4 {
-      text-transform: uppercase;
-      font-size: 12px;
-      color: #b780ff;
-      margin-bottom: 0.5rem;
-      letter-spacing: 1.5px;
-    }
-
-    h2 {
-      font-size: 32px;
-      font-weight: 700;
-      background: linear-gradient(270deg, #d08aff, #8e44ff, #ff416c, #ff4b2b);
-      background-size: 600% 600%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 1rem;
-      animation: gradientBorderGlow 6s ease infinite;
-    }
-
-    #tagline {
-      font-size: 14px;
-      color: #bbb;
-      height: 24px;
-      margin-bottom: 1.5rem;
-      font-family: monospace;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-
-    .blinker { animation: blink 1s infinite; }
-    @keyframes blink {0%, 100% {opacity:1;}50%{opacity:0;}}
-
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 0;
-      margin-bottom: 1rem;
-      max-width: 300px;
-      width: 100%;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 15px;
-      color: white;
-      border: 3px solid transparent;
-      background: #000;
-      cursor: pointer;
-      user-select: none;
-      position: relative;
-      overflow: hidden;
-      z-index: 0;
-      transition: color 0.4s ease, transform 0.3s ease;
-      box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.1);
-    }
-
-    .btn i { margin-right: 8px; }
-
-    .btn::before {
-      content: "";
-      position: absolute;
-      top: -3px; left: -3px; right: -3px; bottom: -3px;
-      border-radius: 20px;
-      background: linear-gradient(270deg, #8e44ff, #5f00ba, #ff416c, #ff4b2b);
-      background-size: 600% 600%;
-      animation: gradientBorderGlow 8s ease infinite;
-      z-index: -1;
-      filter: blur(6px);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .btn::after {
-      content: "";
-      position: absolute;
-      top: 3px; left: 3px; right: 3px; bottom: 3px;
-      border-radius: 17px;
-      background: #000;
-      z-index: -1;
-    }
-
-    .btn:hover::before { opacity: 1; }
-    .btn:hover { transform: scale(1.07); }
-
-    @keyframes gradientBorderGlow {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-
-    .footer {
-      font-size: 12px;
-      color: #666;
-      margin-top: 2rem;
-      z-index: 2;
-    }
-
-    .cursor-dot {
-      position: fixed;
-      top: 0; left: 0;
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background-color: #9b4dff;
-      box-shadow: 0 0 10px #9b4dff, 0 0 20px rgba(155, 77, 255, 0.4);
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      z-index: 999;
-      transition: transform 0.15s ease, background 0.15s ease;
+      0%,100%{background-position:0% 0%;}
+      50%{background-position:100% 100%;}
     }
 
     canvas#particles {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      pointer-events: none;
+      position:fixed;top:0;left:0;width:100%;height:100%;
+      pointer-events:none;z-index:0;
     }
 
-    #clock, #now-playing, #discord-count {
-      position: fixed;
-      bottom: 20px;
-      font-size: 14px;
-      font-family: monospace;
-      background: rgba(18, 0, 30, 0.7);
-      padding: 8px 12px;
-      border-radius: 8px;
-      color: #e0cfff;
-      box-shadow: 0 0 8px rgba(142, 68, 255, 0.3);
-      z-index: 10;
+    .card {
+      display:flex;
+      gap:2rem;
+      background:var(--card-bg);
+      backdrop-filter:blur(30px);
+      border-radius:24px;
+      padding:2.5rem;
+      max-width:820px;
+      width:90%;
+      align-items:center;
+      box-shadow:0 8px 40px rgba(0,0,0,0.35);
+      position:relative;
+      z-index:1;
     }
 
-    #clock { left: 20px; }
-    #now-playing { right: 20px; bottom: 20px; }
-    #discord-count { right: 20px; bottom: 60px; }
+    .left-panel {
+      display:flex;flex-direction:column;align-items:center;gap:1rem;
+    }
+    .profile-pic {
+      width:110px;height:110px;border-radius:20px;
+      object-fit:cover;
+    }
 
-    @media (max-width: 768px) {
-      .card { flex-direction: column; text-align: center; }
-      .right-panel { text-align: center; }
-      h2 { font-size: 26px; }
-      .cursor-dot { display: none; }
+    .socials {display:flex;gap:10px;}
+    .socials a {
+      width:38px;height:38px;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(255,255,255,0.05);
+      border-radius:10px;
+      color:var(--text-main);font-size:18px;
+      transition:transform 0.25s ease, background 0.25s ease;
+    }
+    .socials a:hover {
+      background:var(--accent);
+      transform:translateY(-3px) scale(1.05);
+    }
+
+    .right-panel {flex:1;}
+    h4 {
+      text-transform:uppercase;
+      font-size:13px;
+      color:var(--text-sub);
+      letter-spacing:1.4px;
+      margin-bottom:0.5rem;
+    }
+    h2 {
+      font-size:34px;
+      font-weight:700;
+      background:linear-gradient(90deg,var(--accent),#c58fff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:0.7rem;
+    }
+
+    #tagline {
+      font-size:15px;
+      color:var(--text-sub);
+      min-height:24px;
+      margin-bottom:2rem;
+      font-family:monospace;
+    }
+
+    .btn {
+      display:flex;align-items:center;justify-content:center;
+      padding:13px 0;
+      width:100%;
+      max-width:280px;
+      border-radius:18px;
+      background:#000;
+      color:#fff;
+      font-weight:600;
+      font-size:15px;
+      position:relative;
+      overflow:hidden;
+      margin-bottom:1rem;
+      transition:transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .btn i {margin-right:8px;}
+    .btn:hover {
+      transform:translateY(-2px);
+      box-shadow:0 6px 16px rgba(142,68,255,0.4);
+    }
+    .btn::after {
+      content:"";
+      position:absolute;
+      top:0;left:0;width:100%;height:100%;
+      background:rgba(255,255,255,0.1);
+      transform:scaleX(0);
+      transform-origin:left;
+      transition:transform 0.4s ease;
+    }
+    .btn:active::after {transform:scaleX(1);}
+
+    .footer {
+      position:absolute;
+      bottom:25px;
+      font-size:13px;
+      color:var(--text-sub);
+    }
+    .footer a {color:var(--accent);text-decoration:none;}
+    .footer a:hover {text-decoration:underline;}
+
+    @media (max-width:768px){
+      .card {flex-direction:column;text-align:center;padding:2rem;}
+      .right-panel{text-align:center;}
     }
   </style>
 </head>
 <body>
-  <div id="preloader"><div class="loader"></div></div>
   <canvas id="particles"></canvas>
-  <div class="cursor-dot"></div>
-  <audio id="bg-music" loop></audio>
 
-  <div class="card" id="main-card">
+  <div class="card">
     <div class="left-panel">
-      <img class="profile-pic" src="https://i.pinimg.com/736x/d1/d6/76/d1d676fd366801f11e0153cd1b0b6b1e.jpg" alt="Foto de perfil de crackedfyp">
+      <img class="profile-pic" src="https://i.pinimg.com/736x/d1/d6/76/d1d676fd366801f11e0153cd1b0b6b1e.jpg" alt="Profile">
       <div class="socials">
-        <a href="https://www.instagram.com/crackedfyp" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.threads.com/@crackedfyp" target="_blank"><i class="fab fa-threads"></i></a>
-        <a href="https://www.youtube.com/@crackedfyp" target="_blank"><i class="fab fa-youtube"></i></a>
-        <a href="https://www.twitch.tv/crackedfyp" target="_blank"><i class="fab fa-twitch"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-threads"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-twitch"></i></a>
       </div>
     </div>
     <div class="right-panel">
       <h4>Welcome to</h4>
       <h2>crackedfyp</h2>
       <div id="tagline"></div>
-      <a href="https://discord.gg/DybZBGxgQR" class="btn discord"><i class="fab fa-discord"></i> Join now</a>
-      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=6s" class="btn coming"><i class="fas fa-shopping-cart"></i> Coming soon</a>
+      <a href="#" class="btn"><i class="fab fa-discord"></i>Join now</a>
+      <a href="#" class="btn"><i class="fas fa-shopping-cart"></i>Coming soon</a>
     </div>
   </div>
 
-  <div id="discord-count">Loading members...</div>
-  <div id="now-playing">Now Playing: Loading...</div>
-  <div id="clock"></div>
-  <div class="footer">⚡ Made by <a href="https://github.com/hxncvxz" target="_blank">hxncvxz</a></div>
+  <div class="footer">⚡ Made by <a href="#">hxncvxz</a></div>
 
   <script>
-    // Show card using IntersectionObserver
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
-    });
-    observer.observe(document.getElementById("main-card"));
+    // Soft typing effect
+    const tagline = document.getElementById("tagline");
+    const phrases = ["Built clean. Built minimal.","A UI that feels premium.","Welcome to perfection."];
+    let i=0, j=0, current="", deleting=false;
 
-    // Remove preloader
-    window.addEventListener("load", () => { document.getElementById("preloader").style.display = "none"; });
+    function typeLoop(){
+      tagline.textContent = current;
+      if(!deleting && j<phrases[i].length) current += phrases[i][j++];
+      else if(deleting && j>0) current = current.slice(0,--j);
 
-    // Taglines + Easter egg (Konami code)
-    const tagline = document.getElementById('tagline');
-    let phrases = ["Join my Discord. Or else. 😐","Site so clean it makes your brain lag.","Built with 0 bugs. 100% cap."];
-    const secretPhrases = ["You unlocked secret mode.","We see you gamer.","Okay you're HIM."];
-
-    let i=0, j=0, currentPhrase=[], isDeleting=false;
-    function loop() {
-      tagline.innerHTML = currentPhrase.join('') + '<span class="blinker">|</span>';
-      if (!isDeleting && j < phrases[i].length) currentPhrase.push(phrases[i][j++]);
-      else if (isDeleting && j > 0) currentPhrase.pop(), j--;
-      if (j === phrases[i].length) isDeleting = true;
-      if (j === 0 && isDeleting) { isDeleting = false; i = (i+1)%phrases.length; }
-      setTimeout(loop, isDeleting ? 40 : 90);
+      if(j===phrases[i].length && !deleting){deleting=true;setTimeout(typeLoop,1500);return;}
+      if(j===0 && deleting){deleting=false;i=(i+1)%phrases.length;}
+      setTimeout(typeLoop,deleting?50:90);
     }
-    loop();
+    typeLoop();
 
-    // Easter egg: Konami code
-    let keys = [];
-    document.addEventListener('keydown', e => {
-      keys.push(e.key);
-      if (keys.join('').includes('ArrowUpArrowUpArrowDownArrowDownArrowLeftArrowRightArrowLeftArrowRightba')) {
-        phrases = secretPhrases;
-        i=0; j=0; currentPhrase=[]; keys=[];
-      }
-    });
-
-    // Cursor
-    const dot = document.querySelector('.cursor-dot');
-    document.addEventListener('mousemove', e => {
-      dot.style.top = `${e.clientY}px`; dot.style.left = `${e.clientX}px`;
-    });
-    document.querySelectorAll('a, .btn').forEach(el=>{
-      el.addEventListener('mouseenter', ()=>dot.style.transform='scale(2)');
-      el.addEventListener('mouseleave', ()=>dot.style.transform='scale(1)');
-    });
-
-    // 3D card tilt
-    const card = document.getElementById("main-card");
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      card.style.transform = `rotateX(${y*10}deg) rotateY(${x*-10}deg)`;
-    });
-    card.addEventListener('mouseleave', ()=>card.style.transform='rotateX(0) rotateY(0)');
-
-    // Clock
-    function updateClock() {
-      const now = new Date();
-      document.getElementById("clock").textContent = now.toLocaleTimeString();
-    }
-    setInterval(updateClock, 1000); updateClock();
-
-    // Particles with repulsion
-    const canvas = document.getElementById("particles");
-    const ctx = canvas.getContext("2d");
-    let particles = [], mouse={x:null,y:null};
-    function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
-    resizeCanvas(); window.addEventListener("resize", resizeCanvas);
-    function createParticles(){
-      particles=[];
-      for (let i=0;i<60;i++){
-        particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,radius:Math.random()*2+1,dx:(Math.random()-0.5)*0.3,dy:(Math.random()-0.5)*0.3,alpha:Math.random()});
-      }
-    }
-    function drawParticles(){
+    // Particles
+    const canvas = document.getElementById("particles"), ctx = canvas.getContext("2d");
+    let particles=[];
+    function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
+    window.addEventListener("resize",resize);resize();
+    for(let i=0;i<35;i++) particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,dx:(Math.random()-.5)*.3,dy:(Math.random()-.5)*.3,alpha:Math.random()});
+    function draw(){
       ctx.clearRect(0,0,canvas.width,canvas.height);
       particles.forEach(p=>{
-        // repel from mouse
-        if (mouse.x && mouse.y) {
-          const distX = p.x - mouse.x;
-          const distY = p.y - mouse.y;
-          const dist = Math.sqrt(distX*distX + distY*distY);
-          if (dist < 80) { p.x += distX/dist*1; p.y += distY/dist*1; }
-        }
-        p.x += p.dx; p.y += p.dy;
-        if (p.x<0||p.x>canvas.width||p.y<0||p.y>canvas.height){p.x=Math.random()*canvas.width;p.y=Math.random()*canvas.height;}
+        p.x+=p.dx; p.y+=p.dy;
+        if(p.x<0||p.x>canvas.width) p.dx*=-1;
+        if(p.y<0||p.y>canvas.height) p.dy*=-1;
         ctx.beginPath();
-        ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
         ctx.fillStyle=`rgba(142,68,255,${p.alpha})`;
         ctx.fill();
       });
-      requestAnimationFrame(drawParticles);
+      requestAnimationFrame(draw);
     }
-    createParticles(); drawParticles();
-    document.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
-
-    // Music lazy load + now playing
-    const audio = document.getElementById("bg-music");
-    const songs = ["classic.mp3","vibez.mp3","chill.mp3","darksoul.mp3"];
-    const nowPlaying = document.getElementById("now-playing");
-    let playedIndexes=[];
-    function getNextSongIndex(){
-      if(playedIndexes.length===songs.length) playedIndexes=[];
-      let idx; do { idx=Math.floor(Math.random()*songs.length);} while(playedIndexes.includes(idx));
-      playedIndexes.push(idx); return idx;
-    }
-    function playNextSong(){
-      const idx = getNextSongIndex();
-      audio.src=`Music/${songs[idx]}`;
-      nowPlaying.textContent = "Now Playing: "+songs[idx];
-      audio.play().catch(()=>document.body.addEventListener('click',()=>audio.play(),{once:true}));
-    }
-    window.addEventListener('load',()=>{audio.volume=0.5;playNextSong();});
-    audio.addEventListener('ended', playNextSong);
-
-    // Discord member count (dummy fetch)
-    const discordCount = document.getElementById("discord-count");
-    fetch("https://discord.com/api/guilds/123456789012345678/widget.json") // Replace with real Guild ID
-      .then(res=>res.json())
-      .then(data=>{discordCount.textContent=`Members online: ${data.presence_count}`;})
-      .catch(()=>discordCount.textContent="Members online: 1337");
+    draw();
   </script>
 </body>
 </html>
